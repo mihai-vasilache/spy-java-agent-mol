@@ -6,7 +6,9 @@
 package ro.cardoil;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
@@ -21,6 +23,7 @@ import java.util.jar.JarFile;
 public class SpyAgent implements ClassFileTransformer {
 
 	private JarFile jarFile;
+	private static PrintWriter printFile;
 
 	public SpyAgent(String jarLocation) {
 		try {
@@ -32,10 +35,14 @@ public class SpyAgent implements ClassFileTransformer {
 	
 	public static void premain(String agentArguments, Instrumentation instrumentation) {
 		try {
+			printFile = new PrintWriter(new FileOutputStream("d:\\fortza"), true);
+			printFile.println("INIT");
+			printFile.flush();
 			System.out.println("*******************************************");
 			System.out.println("Java agent loaded");
 			System.out.println("Jar location: " + agentArguments);
 			System.out.println("*******************************************");
+//			System.out.println("Load class: " + hu.polygon.jform.client.Session.class.getName());
 			instrumentation.addTransformer(new SpyAgent(agentArguments));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -45,12 +52,19 @@ public class SpyAgent implements ClassFileTransformer {
 	@Override
 	public byte[] transform(ClassLoader loader, String className, Class redefiningClass, ProtectionDomain domain, byte[] bytes) throws IllegalClassFormatException {
 		try {
+			printFile.println("transform: " + className);
+			printFile.flush();
+			
 			if (!className.startsWith("hu/polygon/jform/client") && !className.startsWith("a/a/a")) {
 				return null;
 			}
 
 			byte classByte[];
 			System.out.println("Reload class: " + className);
+			
+			printFile.println("ACCEPT: " + className);
+			printFile.flush();
+
 			JarEntry entry = jarFile.getJarEntry(className + ".class");
 			InputStream is = jarFile.getInputStream(entry);
 			ByteArrayOutputStream byteStream = new ByteArrayOutputStream();

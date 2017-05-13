@@ -7,13 +7,22 @@
 	<artifactId>spy-java-agent-mol</artifactId>
 	<name>spy-java-agent-mol</name>
 	<description>javaagent for replacing applet classes wthout sources with the decopiled ones recopiled with debug info (prj ro.callisto.magyar-olaj-applet)</description>
-    
 	<version>0.0.1-SNAPSHOT</version>
-	
 	<packaging>jar</packaging>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.github.callisto-systems</groupId>
+			<artifactId>magyar-olaj-applet</artifactId>
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
 	
 	<build>
 		<plugins>
@@ -23,12 +32,15 @@
 				<version>3.0.2</version>
 				<configuration>
 					<archive>
-						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 						<manifestEntries>
-							<key>value</key>
+							<Can-Redefine-Classes>true</Can-Redefine-Classes>
+							<Can-Retransform-Classes>true</Can-Retransform-Classes>
+							<Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
 							<Premain-Class>ro.cardoil.SpyAgent</Premain-Class>
 						</manifestEntries>
 					</archive>
@@ -54,5 +66,12 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
 </project>
