@@ -35,7 +35,8 @@ public class SpyAgent implements ClassFileTransformer {
 	
 	public static void premain(String agentArguments, Instrumentation instrumentation) {
 		try {
-			printFile = new PrintWriter(new FileOutputStream("d:\\fortza"), true);
+			agentArguments = "c:\\prj\\magyar-olaj-applet\\target\\magyar-olaj-applet-1.1.jar";
+			printFile = new PrintWriter(new FileOutputStream("d:\\_applet"), true);
 			printFile.println("INIT");
 			printFile.flush();
 			System.out.println("*******************************************");
@@ -46,16 +47,26 @@ public class SpyAgent implements ClassFileTransformer {
 			instrumentation.addTransformer(new SpyAgent(agentArguments));
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.printStackTrace(printFile);
+			printFile.flush();
 		}
 	}
 
 	@Override
 	public byte[] transform(ClassLoader loader, String className, Class redefiningClass, ProtectionDomain domain, byte[] bytes) throws IllegalClassFormatException {
 		try {
-			printFile.println("transform: " + className);
-			printFile.flush();
+//			printFile.println("transform: " + className);
+//			printFile.flush();
+//			System.out.println("Transform class: " + className);
+			
+			// !!!!!!!!!!!
+			//if(1==1){return null;};
 			
 			if (!className.startsWith("hu/polygon/jform/client") && !className.startsWith("a/a/a")) {
+				return null;
+			}
+			
+			if(!className.equals("hu/polygon/jform/client/Session")) {
 				return null;
 			}
 
