@@ -62,13 +62,21 @@ public class SpyAgent implements ClassFileTransformer {
 			// !!!!!!!!!!!
 			//if(1==1){return null;};
 			
-			if (!className.startsWith("hu/polygon/jform/client") && !className.startsWith("a/a/a")) {
+			if (!className.startsWith("hu/polygon/jform/client") /*&& !className.startsWith("a/a/a"))*/ ) {
 				return null;
 			}
 			
-			if(!className.equals("hu/polygon/jform/client/Session")) {
-				return null;
-			}
+//			List<String> acceptedClasses = Arrays.asList(new String[]{
+//				"hu/polygon/jform/client/Session",
+//				"hu/polygon/jform/client/av",
+//				"hu/polygon/jform/client/ao",
+//				"hu/polygon/jform/client/ah",
+//				"hu/polygon/jform/client/f"
+//			});
+//			
+//			if(! acceptedClasses.contains(className)) {
+//				return null;
+//			}
 
 			byte classByte[];
 			System.out.println("Reload class: " + className);

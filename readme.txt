@@ -11,3 +11,4 @@
 6* export fiddler cert: Tools -> Fiddler Options... -> HTTPS -> Export Root Certificate to Desktop
 7* make java type key store and import the certificate: <JDK_Home>\bin\keytool.exe -import -file C:\Users\<Username>\Desktop\FiddlerRoot.cer -keystore FiddlerKeystore -alias Fiddler
 8* add for Fiddler (with fiddler certificate export made before): -DproxySet=true -Dhttp.proxyHost=127.0.0.1 -Dhttps.proxyHost=127.0.0.1 -Dhttp.proxyPort=8888 -Dhttps.proxyPort=8888 -Djavax.net.ssl.trustStore=C:\Users\mihai\FiddlerKeystore -Djavax.net.ssl.trustStorePassword=changeit
+9* !!!! important: add: d:/mol_conversation/ folder !!!
